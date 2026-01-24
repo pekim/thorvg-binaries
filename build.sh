@@ -2,7 +2,7 @@
 set -eo pipefail
 
 THORVG_COMMIT=1a43240ec3ffdaa689412e7cd52e83cf8118e2b9
-THORVG_DIR=src
+THORVG_DIR=thorvg
 GOOS=$(go env GOOS)
 GOARCH=$(go env GOARCH)
 LIBRARY_DIR=assets
