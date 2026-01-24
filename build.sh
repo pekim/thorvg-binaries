@@ -40,4 +40,5 @@ if [ -e $THORVG_DIR/build/src/libthorvg-1.1.dylib ]; then
 fi
 cp $THORVG_DIR/src/bindings/capi/thorvg_capi.h $LIBRARY_DIR
 
+# list outputs
 ls -l $LIBRARY_DIR

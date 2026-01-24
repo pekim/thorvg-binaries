@@ -8,6 +8,7 @@ permissions:
 jobs:
   linux-amd64:
     runs-on: ubuntu-24.04
+
     steps:
       - uses: actions/checkout@v4
 
@@ -21,8 +22,14 @@ jobs:
       - name: build
         run: ./build.sh
 
-  macos-amd64:
-    runs-on: macos-15
+  macos:
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-15-intel, macos-15]
+
+    runs-on: ${{ matrix.os }}
+
     steps:
       - uses: actions/checkout@v4
 
