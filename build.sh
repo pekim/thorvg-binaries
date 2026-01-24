@@ -30,7 +30,7 @@ popd
 
 # copy library and C header
 mkdir -p $LIBRARY_DIR
-cp $THORVG_DIR/build/src/libthorvg-1.so.1.0.0 $LIBRARY_FILE
+cp $THORVG_DIR/build/src/libthorvg* $LIBRARY_FILE
 cp $THORVG_DIR/src/bindings/capi/thorvg_capi.h $LIBRARY_DIR
 
 # strip symbols from the library, reducing the size by about 90%
