@@ -29,7 +29,7 @@ jobs:
         with:
           name: linux-amd64
           path: assets/*
-          overwrite: rue
+          overwrite: true
 
   # macos-amd64:
   #   runs-on: macos-15-intel
