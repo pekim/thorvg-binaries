@@ -22,13 +22,30 @@ jobs:
       - name: build
         run: ./build.sh
 
-  macos:
-    strategy:
-      fail-fast: false
-      matrix:
-        os: [macos-15-intel, macos-15]
+  macos-amd64:
+    runs-on: macos-15-intel
 
-    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.25"
+
+      - name: install clang
+        run: brew install llvm
+
+      - name: install meson
+        run: brew install meson ninja
+
+      - name: build
+        run: ./build.sh
+        env:
+          CC: /usr/local/opt/llvm/bin/clang
+          CXX: /usr/local/opt/llvm/bin/clang++
+
+  macos-arm64:
+    runs-on: macos-15
 
     steps:
       - uses: actions/checkout@v4
