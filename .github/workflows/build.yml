@@ -6,20 +6,20 @@ permissions:
   contents: read
 
 jobs:
-  # linux-amd64:
-  #   runs-on: ubuntu-24.04
-  #   steps:
-  #     - uses: actions/checkout@v4
+  linux-amd64:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v4
 
-  #     - uses: actions/setup-go@v6
-  #       with:
-  #         go-version: "1.25"
+      - uses: actions/setup-go@v6
+        with:
+          go-version: "1.25"
 
-  #     - name: install meson
-  #       run: sudo apt-get install python3 ninja-build meson
+      - name: install meson
+        run: sudo apt-get install python3 ninja-build meson
 
-  #     - name: build
-  #       run: ./build.sh
+      - name: build
+        run: ./build.sh
 
   macos-amd64:
     runs-on: macos-15
