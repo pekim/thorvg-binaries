@@ -48,7 +48,7 @@ jobs:
         run: brew install llvm
 
       - name: install meson
-        run: brew install meson ninja
+        run: brew install meson
 
       - name: build
         run: ./build.sh
@@ -77,7 +77,7 @@ jobs:
         run: brew install llvm
 
       - name: install meson
-        run: brew install meson ninja
+        run: brew install meson
 
       - name: build
         run: ./build.sh
