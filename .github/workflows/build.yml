@@ -30,7 +30,7 @@ jobs:
       - name: upload artifacts
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ github.jobs[github.job].name }}
+          name: ${{ github.job }}
           path: assets/*
           overwrite: true
 
