@@ -30,8 +30,14 @@ jobs:
         with:
           go-version: "1.25"
 
+      - name: install clang
+        run: brew install llvm
+
       - name: install meson
         run: brew install meson ninja
 
       - name: build
         run: ./build.sh
+        env:
+          CC: /usr/local/opt/llvm/bin/clang
+          CXX: /usr/local/opt/llvm/bin/clang++
