@@ -20,6 +20,7 @@ jobs:
         uses: actions/setup-go@v6
         with:
           go-version: "${{ env.GO_VERSION }}"
+          cache: false
 
       - name: install meson
         run: sudo apt-get install python3 ninja-build meson
@@ -43,6 +44,7 @@ jobs:
       - uses: actions/setup-go@v6
         with:
           go-version: "${{ env.GO_VERSION }}"
+          cache: false
 
       - name: install clang
         run: brew install llvm
@@ -72,6 +74,7 @@ jobs:
       - uses: actions/setup-go@v6
         with:
           go-version: "${{ env.GO_VERSION }}"
+          cache: false
 
       - name: install clang
         run: brew install llvm
