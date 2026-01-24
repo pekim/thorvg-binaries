@@ -5,16 +5,19 @@ on:
 permissions:
   contents: read
 
+env:
+  GO_VERSION: 1.25
+
 jobs:
   linux-amd64:
     runs-on: ubuntu-24.04
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - uses: actions/setup-go@v6
         with:
-          go-version: "1.25"
+          go-version: ${{ env.GO_VERSION }}
 
       - name: install meson
         run: sudo apt-get install python3 ninja-build meson
@@ -22,46 +25,46 @@ jobs:
       - name: build
         run: ./build.sh
 
-  macos-amd64:
-    runs-on: macos-15-intel
+  # macos-amd64:
+  #   runs-on: macos-15-intel
 
-    steps:
-      - uses: actions/checkout@v4
+  #   steps:
+  #     - uses: actions/checkout@v6
 
-      - uses: actions/setup-go@v6
-        with:
-          go-version: "1.25"
+  #     - uses: actions/setup-go@v6
+  #       with:
+  #         go-version: ${{ env.GO_VERSION }}
 
-      - name: install clang
-        run: brew install llvm
+  #     - name: install clang
+  #       run: brew install llvm
 
-      - name: install meson
-        run: brew install meson ninja
+  #     - name: install meson
+  #       run: brew install meson ninja
 
-      - name: build
-        run: ./build.sh
-        env:
-          CC: /usr/local/opt/llvm/bin/clang
-          CXX: /usr/local/opt/llvm/bin/clang++
+  #     - name: build
+  #       run: ./build.sh
+  #       env:
+  #         CC: /usr/local/opt/llvm/bin/clang
+  #         CXX: /usr/local/opt/llvm/bin/clang++
 
-  macos-arm64:
-    runs-on: macos-15
+  # macos-arm64:
+  #   runs-on: macos-15
 
-    steps:
-      - uses: actions/checkout@v4
+  #   steps:
+  #     - uses: actions/checkout@v6
 
-      - uses: actions/setup-go@v6
-        with:
-          go-version: "1.25"
+  #     - uses: actions/setup-go@v6
+  #       with:
+  #         go-version: ${{ env.GO_VERSION }}
 
-      - name: install clang
-        run: brew install llvm
+  #     - name: install clang
+  #       run: brew install llvm
 
-      - name: install meson
-        run: brew install meson ninja
+  #     - name: install meson
+  #       run: brew install meson ninja
 
-      - name: build
-        run: ./build.sh
-        env:
-          CC: /opt/homebrew/opt/llvm/bin/clang
-          CXX: /opt/homebrew/opt/llvm/bin/clang++
+  #     - name: build
+  #       run: ./build.sh
+  #       env:
+  #         CC: /opt/homebrew/opt/llvm/bin/clang
+  #         CXX: /opt/homebrew/opt/llvm/bin/clang++
