@@ -1,4 +1,4 @@
-module download
+module github.com/pekim/thorvg-binaries
 
 go 1.25.0
 
