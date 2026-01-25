@@ -43,6 +43,7 @@ func main() {
 		httpClient: httpClient,
 	}
 	dl.processArtifacts()
+	dl.generateConstantGoFile()
 }
 
 func (dl download) processArtifacts() {
@@ -102,7 +103,7 @@ func (dl download) processArtifact(artifact *github.Artifact) {
 		dl.extractFile(file)
 
 		if !strings.HasSuffix(file.Name, ".h") {
-			dl.generateGoFile(file.Name, file.CRC32)
+			dl.generateLibraryGoFile(file.Name, file.CRC32)
 		}
 	}
 }
@@ -123,7 +124,22 @@ func (dl download) extractFile(file *zip.File) {
 	assertNoError(err)
 }
 
-func (dl download) generateGoFile(filename string, fileCRC uint32) {
+func (dl download) writeGoFile(filename string, contents string) {
+	// write file
+	filepath := filepath.Join(dl.destDir, filename) + ".go"
+	err := os.WriteFile(filepath, []byte(contents), 0644)
+	assertNoError(err)
+
+	// format file
+	cmd := exec.Command("gofmt", "-w", filepath)
+	output, err := cmd.CombinedOutput()
+	if len(output) > 0 {
+		fmt.Println(string(output))
+	}
+	assertNoError(err)
+}
+
+func (dl download) generateLibraryGoFile(filename string, fileCRC uint32) {
 	src := fmt.Sprintf(`
 // This is a generated file. DO NOT EDIT.
 
@@ -139,18 +155,24 @@ const sharedObjectID = "%08x"
 		filename, fileCRC,
 	)
 
-	// write file
-	filepath := filepath.Join(dl.destDir, filename) + ".go"
-	err := os.WriteFile(filepath, []byte(src), 0644)
+	dl.writeGoFile(filename, src)
+}
+
+func (dl download) generateConstantGoFile() {
+	commitHash, err := os.ReadFile("thorvg-commit-hash")
 	assertNoError(err)
 
-	// format file
-	cmd := exec.Command("gofmt", "-w", filepath)
-	output, err := cmd.CombinedOutput()
-	if len(output) > 0 {
-		fmt.Println(output)
-	}
-	assertNoError(err)
+	src := fmt.Sprintf(`
+// This is a generated file. DO NOT EDIT.
+
+package thorvg
+
+const libthorvgCommit = "%s"
+`,
+		strings.TrimSpace(string(commitHash)),
+	)
+
+	dl.writeGoFile("libthorvg-constant.go", src)
 }
 
 func assertNoError(err error) {
