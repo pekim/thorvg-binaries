@@ -8,7 +8,9 @@ import (
 	"io"
 	"net/http"
 	"os"
+	"os/exec"
 	"path/filepath"
+	"strings"
 
 	"github.com/google/go-github/v81/github"
 )
@@ -74,22 +76,14 @@ func (dl download) processArtifacts() {
 }
 
 func (dl download) processArtifact(artifact *github.Artifact) {
-	dl.downloadArtifact(artifact)
-}
-
-func (dl download) downloadArtifact(artifact *github.Artifact) {
 	fmt.Printf("download '%s' from %s\n", *artifact.Name, *artifact.ArchiveDownloadURL)
 
 	req, err := http.NewRequest("GET", *artifact.ArchiveDownloadURL, nil)
-	if err != nil {
-		panic(err)
-	}
+	assertNoError(err)
 	req.Header.Add("Authorization", "Bearer "+dl.apiToken)
 
-	resp, err := httpClient.Do(req)
-	if err != nil {
-		panic(err)
-	}
+	resp, err := dl.httpClient.Do(req)
+	assertNoError(err)
 	defer resp.Body.Close()
 
 	if resp.StatusCode != http.StatusOK {
@@ -98,15 +92,18 @@ func (dl download) downloadArtifact(artifact *github.Artifact) {
 	}
 
 	content := &bytes.Buffer{}
-	io.Copy(content, resp.Body)
+	_, err = io.Copy(content, resp.Body)
+	assertNoError(err)
 
 	reader, err := zip.NewReader(bytes.NewReader(content.Bytes()), int64(content.Len()))
-	if err != nil {
-		panic(err)
-	}
+	assertNoError(err)
 
 	for _, file := range reader.File {
 		dl.extractFile(file)
+
+		if !strings.HasSuffix(file.Name, ".h") {
+			dl.generateGoFile(file.Name, file.CRC32)
+		}
 	}
 }
 
@@ -115,18 +112,48 @@ func (dl download) extractFile(file *zip.File) {
 
 	destPath := filepath.Join(dl.destDir, file.Name)
 	destFile, err := os.OpenFile(destPath, os.O_WRONLY|os.O_CREATE|os.O_TRUNC, 0644)
-	if err != nil {
-		panic(err)
-	}
+	assertNoError(err)
 	defer destFile.Close()
 
 	srcFile, err := file.Open()
-	if err != nil {
-		panic(err)
-	}
+	assertNoError(err)
 	defer srcFile.Close()
 
 	_, err = io.Copy(destFile, srcFile)
+	assertNoError(err)
+}
+
+func (dl download) generateGoFile(filename string, fileCRC uint32) {
+	src := fmt.Sprintf(`
+// This is a generated file. DO NOT EDIT.
+
+package thorvg
+
+import _ "embed"
+
+//go:embed %s
+var sharedObject []byte
+
+const sharedObjectID = "%08x"
+`,
+		filename, fileCRC,
+	)
+
+	// write file
+	filepath := filepath.Join(dl.destDir, filename) + ".go"
+	err := os.WriteFile(filepath, []byte(src), 0644)
+	assertNoError(err)
+
+	// format file
+	cmd := exec.Command("gofmt", "-w", filepath)
+	output, err := cmd.CombinedOutput()
+	if len(output) > 0 {
+		fmt.Println(output)
+	}
+	assertNoError(err)
+}
+
+func assertNoError(err error) {
 	if err != nil {
 		panic(err)
 	}
