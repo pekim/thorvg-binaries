@@ -1,5 +1,7 @@
 # thorvg-binaries
 
+[![build](https://github.com/pekim/thorvg-binaries/actions/workflows/build.yml/badge.svg)](https://github.com/pekim/thorvg-binaries/actions/workflows/build.yml)
+
 This repo provides the means to update the thorgv shared libraries of
 https://github.com/pekim/thorvg.
 
