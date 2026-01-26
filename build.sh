@@ -17,7 +17,7 @@ fi
 pushd $THORVG_DIR
 HEAD=$(git rev-parse HEAD)
 if [ "$HEAD" != "$THORVG_COMMIT" ]; then
-  git pull
+  git fetch
   git checkout "${THORVG_COMMIT}"
 fi
 popd
