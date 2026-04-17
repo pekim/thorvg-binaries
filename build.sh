@@ -24,7 +24,7 @@ popd
 
 # build thorvg with C bindings
 pushd $THORVG_DIR
-meson setup build -Dbindings=capi -Dengines=sw,gl -Dsimd=true
+meson setup build -Dbindings=capi -Dengines=cpu,gl -Dsimd=true
 ninja -C build
 popd
 
