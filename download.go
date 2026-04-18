@@ -159,7 +159,7 @@ const sharedObjectID = "%08x"
 }
 
 func (dl download) generateConstantGoFile() {
-	commitHash, err := os.ReadFile("thorvg-commit")
+	version, err := os.ReadFile("thorvg-version")
 	assertNoError(err)
 
 	src := fmt.Sprintf(`
@@ -167,9 +167,9 @@ func (dl download) generateConstantGoFile() {
 
 package thorvg
 
-const libthorvgCommit = "%s"
+const libthorvgVersion = "%s"
 `,
-		strings.TrimSpace(string(commitHash)),
+		strings.TrimSpace(string(version)),
 	)
 
 	dl.writeGoFile("libthorvg-constant.go", src)
