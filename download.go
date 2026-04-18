@@ -159,7 +159,7 @@ const sharedObjectID = "%08x"
 }
 
 func (dl download) generateConstantGoFile() {
-	commitHash, err := os.ReadFile("thorvg-commit-hash")
+	commitHash, err := os.ReadFile("thorvg-commit")
 	assertNoError(err)
 
 	src := fmt.Sprintf(`

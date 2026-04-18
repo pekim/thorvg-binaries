@@ -1,7 +1,7 @@
 #! /usr/bin/env bash
 set -eo pipefail
 
-THORVG_COMMIT=$(<thorvg-commit-hash)
+THORVG_COMMIT=$(<thorvg-commit)
 THORVG_DIR=thorvg
 GOOS=$(go env GOOS)
 GOARCH=$(go env GOARCH)
