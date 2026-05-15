@@ -9,7 +9,7 @@ https://github.com/pekim/thorvg.
 
 - decide the commit in the https://github.com/thorvg/thorvg repo
   to upgrade to
-- update `thorvg-commit-hash` with the new commit hash,
+- update `thorvg-version` with the new commit reference,
   and commit and push the change
 - wait for the github workflow actions to complete
 - run `download.go` in the local clone of this repo
