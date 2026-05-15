@@ -9,7 +9,7 @@ https://github.com/pekim/thorvg.
 
 - decide the commit in the https://github.com/thorvg/thorvg repo
   to upgrade to
-- update `thorvg-commit-hash` with the new commit hash,
+- update `thorvg-version` with the new commit reference,
   and commit and push the change
 - wait for the github workflow actions to complete
 - run `download.go` in the local clone of this repo
@@ -17,7 +17,7 @@ https://github.com/pekim/thorvg.
     1. a github api token, such as a PAT
     1. the path to a local clone of the https://github.com/pekim/thorvg repo
   - for example if the `thorvg` repo is in a sibling directory,
-    `go run artifacts/download.go $GITHUB_PAT ../thorvg`
+    `go run download.go $GITHUB_PAT ../thorvg`
 
 Following the above, the local `thorvg` repo should have updated shared libraries
 (`libthorvg_<goos>_<goarch>.go`),
