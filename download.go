@@ -126,7 +126,7 @@ func (dl download) extractFile(file *zip.File) {
 
 func (dl download) writeGoFile(filename string, contents string) {
 	// write file
-	filepath := filepath.Join(dl.destDir, filename) + ".go"
+	filepath := filepath.Join(dl.destDir, filename)
 	err := os.WriteFile(filepath, []byte(contents), 0644)
 	assertNoError(err)
 
