@@ -126,7 +126,7 @@ func (dl download) extractFile(file *zip.File) {
 
 func (dl download) writeGoFile(filename string, contents string) {
 	// write file
-	filepath := filepath.Join(dl.destDir, filename)
+	filepath := filepath.Join(dl.destDir, filename) + ".go"
 	err := os.WriteFile(filepath, []byte(contents), 0644)
 	assertNoError(err)
 
@@ -172,7 +172,7 @@ const libthorvgVersion = "%s"
 		strings.TrimSpace(string(version)),
 	)
 
-	dl.writeGoFile("libthorvg-constant.go", src)
+	dl.writeGoFile("libthorvg-constant", src)
 }
 
 func assertNoError(err error) {
