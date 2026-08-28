@@ -76,6 +76,9 @@ jobs:
       - name: install meson
         run: brew install meson
 
+      - name: install meson
+        run: brew install libomp
+
       - name: build
         run: ./build.sh
         env:
@@ -104,6 +107,9 @@ jobs:
 
       - name: install meson
         run: brew install meson
+
+      - name: install meson
+        run: brew install libomp
 
       - name: build
         run: ./build.sh
