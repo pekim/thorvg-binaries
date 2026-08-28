@@ -28,7 +28,8 @@ meson setup build \
   -Dbindings=capi \
   -Dengines=cpu,gl \
   -Dloaders="lottie, media, svg, ttf" \
-  -Dsimd=true
+  -Dsimd=true \
+  -Dthreads=true
 ninja -C build
 popd
 
