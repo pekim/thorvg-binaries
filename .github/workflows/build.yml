@@ -76,8 +76,8 @@ jobs:
       - name: install meson
         run: brew install meson
 
-      - name: install meson
-        run: brew install libomp
+      - name: install openmp
+        run: brew install openmp libomp
 
       - name: build
         run: ./build.sh
@@ -108,8 +108,8 @@ jobs:
       - name: install meson
         run: brew install meson
 
-      - name: install meson
-        run: brew install libomp
+      - name: install openmp
+        run: brew install openmp libomp
 
       - name: build
         run: ./build.sh
