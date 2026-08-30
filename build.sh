@@ -24,7 +24,7 @@ popd
 
 # build thorvg with C bindings
 pushd $THORVG_DIR
-meson setup build \
+CC=gcc-16 CXX=g++-16 meson setup build \
   -Dbindings=capi \
   -Dengines=cpu,gl \
   -Dloaders="lottie, media, svg, ttf" \
