@@ -102,22 +102,22 @@ jobs:
           go-version: "${{ env.GO_VERSION }}"
           cache: false
 
-      - name: install clang
-        run: brew install llvm
+      - name: install gcc
+        run: brew install gcc
 
       - name: install meson
         run: brew install meson
 
-      - name: install openmp
-        run: brew install libomp
+      # - name: install openmp
+      #   run: brew install libomp
 
       - name: build
         run: ./build.sh
         env:
-          CC: /opt/homebrew/opt/llvm/bin/clang
-          CXX: /opt/homebrew/opt/llvm/bin/clang++
-          LDFLAGS: "-L/opt/homebrew/opt/libomp/lib"
-          CPPFLAGS: "-I/opt/homebrew/opt/libomp/include"
+          CC: gcc-16
+          CXX: g++-16
+          # CC: /opt/homebrew/opt/llvm/bin/clang
+          # CXX: /opt/homebrew/opt/llvm/bin/clang++
 
       - name: upload artifacts
         uses: actions/upload-artifact@v4
