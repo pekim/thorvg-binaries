@@ -114,10 +114,10 @@ jobs:
       - name: build
         run: ./build.sh
         env:
-          CC: gcc-16
-          CXX: g++-16
-          # CC: /opt/homebrew/opt/llvm/bin/clang
-          # CXX: /opt/homebrew/opt/llvm/bin/clang++
+          # CC: gcc-16
+          # CXX: g++-16
+          CC: /opt/homebrew/opt/llvm/bin/clang
+          CXX: /opt/homebrew/opt/llvm/bin/clang++
 
       - name: upload artifacts
         uses: actions/upload-artifact@v4
