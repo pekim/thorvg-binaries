@@ -118,6 +118,7 @@ jobs:
           # CXX: g++-16
           CC: /opt/homebrew/opt/llvm/bin/clang
           CXX: /opt/homebrew/opt/llvm/bin/clang++
+          PATH: "/opt/homebrew/opt/llvm/bin:$PATH"
 
       - name: upload artifacts
         uses: actions/upload-artifact@v4
