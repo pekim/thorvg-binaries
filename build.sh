@@ -1,6 +1,14 @@
 #! /usr/bin/env bash
 set -eo pipefail
 
+THREADS=true
+while getopts ":n" option; do
+   case $option in
+      n)
+         THREADS=false
+   esac
+done
+
 THORVG_VERSION=$(<thorvg-version)
 THORVG_DIR=thorvg
 GOOS=$(go env GOOS)
@@ -24,12 +32,13 @@ popd
 
 # build thorvg with C bindings
 pushd $THORVG_DIR
-CC=gcc-16 CXX=g++-16 meson setup build \
+# CC=gcc CXX=g++ meson setup build \
+meson setup build \
   -Dbindings=capi \
   -Dengines=cpu,gl \
   -Dloaders="lottie, media, svg, ttf" \
   -Dsimd=true \
-  -Dthreads=true
+  -Dthreads=$THREADS
 ninja -C build
 popd
 

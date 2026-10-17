@@ -103,7 +103,7 @@ jobs:
           cache: false
 
       - name: install C/C++ compiler
-        run: brew install gcc llvm
+        run: brew install llvm
 
       - name: install meson
         run: brew install meson
@@ -116,12 +116,12 @@ jobs:
           echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
 
       - name: build
-        run: ./build.sh
+        run: ./build.sh -n
         env:
           # CC: gcc-16
           # CXX: g++-16
-          CC: /opt/homebrew/opt/llvm/bin/clang
-          CXX: /opt/homebrew/opt/llvm/bin/clang++
+          # CC: /opt/homebrew/opt/llvm/bin/clang
+          # CXX: /opt/homebrew/opt/llvm/bin/clang++
           # PATH: "/opt/homebrew/opt/llvm/bin:$PATH"
 
       - name: upload artifacts
