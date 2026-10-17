@@ -117,7 +117,7 @@ jobs:
 
       - name: build
         run: ./build.sh -n
-        env:
+        # env:
           # CC: gcc-16
           # CXX: g++-16
           # CC: /opt/homebrew/opt/llvm/bin/clang
