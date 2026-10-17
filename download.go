@@ -10,6 +10,7 @@ import (
 	"os"
 	"os/exec"
 	"path/filepath"
+	"slices"
 	"strings"
 
 	"github.com/google/go-github/v81/github"
@@ -58,14 +59,21 @@ func (dl download) processArtifacts() {
 		panic(err)
 	}
 
-	// Download all of the artifacts from the most recent worklfow run
-	//
-	// Artifacts are listed in reverse chronological order.
+	// Sort artifacts into reverse chronological order.
 	// So use the first artifacts, until one from a different run is encountered.
+	slices.SortFunc(artifacts.Artifacts, func(a, b *github.Artifact) int {
+		return b.CreatedAt.Compare(a.CreatedAt.Time)
+	})
+
+	// Download all of the artifacts from the most recent worklfow run.
+	// Use the first artifacts, until one from a different run is encountered.
 	var workflowRunId *int64
 	for _, artifact := range artifacts.Artifacts {
 		if workflowRunId == nil {
 			workflowRunId = artifact.WorkflowRun.ID
+			fmt.Printf("Downloading artifacts from run %d\n", *workflowRunId)
+			fmt.Printf("https://github.com/pekim/thorvg-binaries/actions/runs/%d\n", *workflowRunId)
+			fmt.Println()
 		}
 
 		if *artifact.WorkflowRun.ID == *workflowRunId {
