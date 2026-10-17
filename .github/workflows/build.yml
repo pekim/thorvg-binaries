@@ -116,7 +116,7 @@ jobs:
           echo "/opt/homebrew/opt/llvm/bin" >> $GITHUB_PATH
 
       - name: build
-        run: ./build.sh -n
+        run: ./build.sh
         # env:
           # CC: gcc-16
           # CXX: g++-16
